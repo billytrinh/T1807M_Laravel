@@ -21,14 +21,19 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get("/demo","HomeController@demo");
 
-Route::get("/book","BookController@BookList");
+Route::group(["middleware"=>"admin.auth"],function (){
+    Route::group(["prefix"=>"book"],function (){
+        Route::get("/","BookController@BookList");
 
-Route::get("book/create","BookController@BookCreate");
-Route::post("book/create","BookController@BookSave");
+        Route::get("/create","BookController@BookCreate");
+        Route::post("/create","BookController@BookSave");
 
-Route::get("book/edit","BookController@BookEdit");
-Route::post("book/edit","BookController@BookUpdate");
+        Route::get("/edit","BookController@BookEdit");
+        Route::post("/edit","BookController@BookUpdate");
 
-Route::get("book/delete/{book_id}","BookController@BookDelete");
+        Route::get("/delete/{book_id}","BookController@BookDelete");
+    });
+
+});
 
 Route::get("author/detail/{author_id}","AuthorController@show");
