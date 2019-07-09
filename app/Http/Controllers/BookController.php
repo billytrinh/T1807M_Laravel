@@ -60,6 +60,8 @@ class BookController extends Controller
             "nxb_id"=> $request->get("nxb_id"),
             "qty"=> $request->get("qty"),
         ])->save();
+        sendMessage("my-channel","my-event",["message"=>"Co sach moi","book_name"=> $request->get("book_name")]);
+        sendMessage("channel-1001","my-event",["test"=> 1]);
         return redirect("book");
     }
 
