@@ -34,7 +34,7 @@ class BookController extends Controller
 //                ->select("book.*","author.author_name","nxb.nxb_name")
 //                ->paginate(10);
 
-        $books = Book::orderBy("qty","asc")->paginate(10);
+        $books = Book::orderBy("book_id","desc")->paginate(10);
 
         return view("book.list",compact("books"));
     }
@@ -54,11 +54,24 @@ class BookController extends Controller
             "nxb_id" => "required|numeric|min:1",
             "qty" => "required|numeric|min:1",
         ]);
+
+        $url = null;
+        if($request->hasFile("book_image")){
+            $allow_array = ["png","jpeg","jpg","gif"];
+            $file = $request->file("book_image");
+            if(in_array($file->getClientOriginalExtension(),$allow_array)){
+                $name = time().$file->getClientOriginalName();
+                $file->move("upload/images",$name);
+                $url = "/upload/images/".$name;
+            }
+        }
+
         Book::create([
             "book_name"=> $request->get("book_name"),
             "author_id"=> $request->get("author_id"),
             "nxb_id"=> $request->get("nxb_id"),
             "qty"=> $request->get("qty"),
+            "book_image" => $url
         ])->save();
         sendMessage("my-channel","my-event",["message"=>"Co sach moi","book_name"=> $request->get("book_name")]);
         sendMessage("channel-1001","my-event",["test"=> 1]);

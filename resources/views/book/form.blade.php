@@ -2,7 +2,7 @@
 
 @section("main_content")
     <h1>Them sach</h1>
-    <form action="{{url("book/create")}}" method="post">
+    <form action="{{url("book/create")}}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
             <label>Ten sach</label>
@@ -12,6 +12,10 @@
                 <strong>{{ $errors->first("book_name") }}</strong>
             </span>
             @endif
+        </div>
+        <div class="form-group">
+            <label>Image</label>
+            <input type="file" class="form-control" value="{{old("book_image")}}" name="book_image" placeholder="Book Name"/>
         </div>
         <div class="form-group">
             <label>Author</label>

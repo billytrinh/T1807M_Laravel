@@ -11,6 +11,7 @@
         <thead>
         <th>ID</th>
         <th>Book name</th>
+        <th>Book Image</th>
         <th>Author</th>
         <th>NXB</th>
         <th>Qty</th>
@@ -21,6 +22,7 @@
         @foreach($books as $book)
             <tr>
                 <td>{{$book->book_id}}</td>
+                <td><img src="{{asset($book->book_image)}}" width="50px" height="50px" /></td>
                 <td>{{$book->book_name}}</td>
                 <td>{{$book->getAuthor->author_name}}</td>
                 <td>{{$book->nxb_id}}</td>
